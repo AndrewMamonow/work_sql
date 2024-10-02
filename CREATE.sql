@@ -1,3 +1,5 @@
+--CREATE-запросы, создание таблиц
+
 CREATE TABLE IF NOT EXISTS Genres (
 	id SERIAL PRIMARY KEY,
 	genre VARCHAR(50) UNIQUE NOT NULL
@@ -8,19 +10,19 @@ CREATE TABLE IF NOT EXISTS Artists (
 );
 CREATE TABLE IF NOT EXISTS Albums (
 	id SERIAL PRIMARY KEY,
-	album VARCHAR(50) NOT null,
-	album_year INTEGER NOT null
+	album VARCHAR(50) NOT NULL,
+	album_year INTEGER NOT NULL CHECK (album_year > 2000)
 );
 CREATE TABLE IF NOT EXISTS Tracks (
 	id SERIAL PRIMARY KEY,
-	track VARCHAR(50) NOT null,
-	track_length INTEGER NOT null,
+	track VARCHAR(50) NOT NULL,
+	track_length INTEGER NOT NULL CHECK (track_length > 0),
 	album_id INTEGER NOT NULL REFERENCES Albums(id)
 );
 CREATE TABLE IF NOT EXISTS Collections (
 	id SERIAL PRIMARY KEY,
-	collection VARCHAR(50) NOT null,
-	collection_year INTEGER NOT null
+	collection VARCHAR(50) NOT NULL,
+	collection_year INTEGER NOT NULL CHECK (collection_year > 2000)
 	);
 CREATE TABLE IF NOT EXISTS GenreArtist (
 	id SERIAL PRIMARY KEY,
