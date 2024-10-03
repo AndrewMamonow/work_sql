@@ -77,15 +77,14 @@ SELECT DISTINCT collection
 WHERE ar.artist = 'Omnimar';
 
 --Названия альбомов, в которых присутствуют исполнители более чем одного жанра.
-SELECT DISTINCT album
+SELECT DISTINCT album, count(ga.genre_id)
 	FROM albums AS a
 	JOIN artistalbum AS aa
 		ON aa.album_id = a.id
 	JOIN genreartist AS ga
 		ON ga.artist_id = aa.artist_id
-	JOIN genres AS g ON g.id = ga.genre_id 	
-GROUP BY a.album, aa.artist_id
-HAVING count(album) >= 1;
+GROUP BY a.album, ga.artist_id
+HAVING count(ga.genre_id) > 1;
 
 --Наименования треков, которые не входят в сборники.
 SELECT track
