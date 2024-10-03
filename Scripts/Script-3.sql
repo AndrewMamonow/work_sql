@@ -1,4 +1,4 @@
--- SELECT-запросы, выборки данных из таблиц
+-- SELECT-запросы, выборка данных из таблиц
 
 --Название и продолжительность самого длительного трека.
 SELECT track, track_length 
@@ -8,7 +8,7 @@ WHERE track_length = (SELECT MAX(track_length) FROM tracks);
 --Название треков, продолжительность которых не менее 3,5 минут (210 секунд).
 SELECT track, track_length 
 	FROM tracks
-WHERE track_length >= 210;
+WHERE track_length > 210;
 
 --Названия сборников, вышедших в период с 2018 по 2020 год включительно.
 SELECT collection, CAST(collection_year AS VARCHAR)
@@ -23,10 +23,7 @@ WHERE artist NOT LIKE '% %';
 --Название треков, которые содержат слово «мой» или «my».
 SELECT track 
 	FROM tracks
-WHERE track ILIKE '% My %'
-	OR track ILIKE 'My %'
-	OR track ILIKE '% My'
-	OR track ILIKE 'My';
+WHERE track LIKE '%My%';
 
 --Количество исполнителей в каждом жанре.
 SELECT genres.genre, count(artist_id) 
@@ -77,14 +74,13 @@ SELECT DISTINCT collection
 WHERE ar.artist = 'Omnimar';
 
 --Названия альбомов, в которых присутствуют исполнители более чем одного жанра.
-SELECT DISTINCT album
+SELECT album
 	FROM albums AS a
 	JOIN artistalbum AS aa
 		ON aa.album_id = a.id
 	JOIN genreartist AS ga
-		ON ga.artist_id = aa.artist_id
-	JOIN genres AS g ON g.id = ga.genre_id 	
-GROUP BY a.album, aa.artist_id
+		ON ga.artist_id = aa.artist_id 
+GROUP BY a.album
 HAVING count(album) >= 1;
 
 --Наименования треков, которые не входят в сборники.
@@ -119,3 +115,4 @@ HAVING count(track) = (SELECT min(ct) FROM
 				JOIN tracks AS ts
 					ON ts.album_id = a.id
 			GROUP BY a.album));
+
